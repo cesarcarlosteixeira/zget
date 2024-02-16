@@ -1,11 +1,19 @@
-package zget
+﻿package zget
 
 import (
 	"net/http"
 	"os"
 	"io"
-	"log"
 )
+
+type fileData struct {
+	Path string
+	Code int
+}
+
+func (f *fileData) Open() (*os.File, error) {
+	return os.Open(f.Path)
+}
 
 const (
 	OkCode = 0
@@ -17,7 +25,7 @@ const (
 func Download(url string, filePath string) (fileData, error) {
 	var err error
 
-	out, err = os.Create(filePath)
+	out, err := os.Create(filePath)
 
 	if err != nil {
 		return fileData {
@@ -28,7 +36,7 @@ func Download(url string, filePath string) (fileData, error) {
 
 	defer out.Close()
 
-	resp, err = http.Get(url)
+	resp, err := http.Get(url)
 
 	if err != nil {
 		return fileData {
@@ -39,7 +47,7 @@ func Download(url string, filePath string) (fileData, error) {
 
 	defer resp.Body.Close()
 
-	_, err := io.Copy(out, resp.Body)
+	_, err = io.Copy(out, resp.Body)
 
 	if err != nil {
 		return fileData {
