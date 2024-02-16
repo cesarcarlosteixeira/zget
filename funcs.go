@@ -14,11 +14,6 @@ const (
 	BadFileCopyCode = 3
 )
 
-type fileData struct {
-	Path string
-	Code int
-}
-
 func Download(url string, filePath string) (fileData, error) {
 	var err error
 
